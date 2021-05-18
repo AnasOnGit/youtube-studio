@@ -275,12 +275,17 @@ const DEFAULT_ELEMENT = {
     ...DELAY(0)
 }
 
-async function setEndScreen(videoId, startMs, elements = []) {
+async function setEndScreen(videoId, startMs, elements = [], durationMs) {
     const template = _.cloneDeep(edit_video_template)
+    
+    // default duration ms
+    DEFAULT_ELEMENT_DURATION_MS = 5000; // 5 Seconds
 
     const extendedElements = elements.map(element => ({
         ...DEFAULT_ELEMENT,
-        ...element
+        ...element,
+        // end screen duration || Min duration 5 seconds or 5000 ms || MAX Duration 20 seconds or 20,000 seconds
+        "durationMs": durationMs < DEFAULT_ELEMENT_DURATION_MS || durationMs > 20000 ? DEFAULT_ELEMENT_DURATION_MS : durationMs || DEFAULT_ELEMENT_DURATION_MS,
     }))
 
     _.set(template, 'endscreenEdit.endscreen.startMs', startMs);
