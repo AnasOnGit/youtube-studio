@@ -316,6 +316,22 @@ async function setInfoCards(videoId, cards) {
                     "teaserText": teaserText || "teaser text"
                 }
             }
+        
+            // channel card
+            if (card.channelId) {
+                const { channelId, customMessage, teaserText, teaserStartMs } = card;
+                return {
+                    "videoId": videoId,
+                    "teaserStartMs": teaserStartMs || 0,
+                    "collaboratorInfoCard": {
+                        "channelId": channelId
+                      },
+                    "infoCardEntityId": Date.now().toString(),
+                    "customMessage": customMessage || "custom message",
+                    "teaserText": teaserText || "teaser text"
+                }
+            }
+
         }).filter(card => !!card));
 
     _.set(template, 'endscreenEdit', undefined);
